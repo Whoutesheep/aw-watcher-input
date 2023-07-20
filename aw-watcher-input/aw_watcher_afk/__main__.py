@@ -1,6 +1,6 @@
 from aw_core.log import setup_logging
 
-from aw_watcher_afk.afk import AFKInput
+from aw_watcher_afk.afk import INPUTWatcher
 from aw_watcher_afk.config import parse_args
 
 
@@ -17,7 +17,7 @@ def main() -> None:
     )
 
     # Start watcher
-    watcher = AFKInput(args, testing=args.testing)
+    watcher = INPUTWatcher(args, testing=args.testing)
     watcher.run()
 
 
