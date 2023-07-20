@@ -36,7 +36,7 @@ class Settings:
         assert self.timeout >= self.poll_time
 
 
-class AFKWatcher:
+class INPUTWatcher:
     def __init__(self, args, testing=False):
         # Read settings from config
         self.settings = Settings(
@@ -44,7 +44,7 @@ class AFKWatcher:
         )
 
         self.client = ActivityWatchClient(
-            "aw-watcher-afk", host=args.host, port=args.port, testing=testing
+            "aw-watcher-input", host=args.host, port=args.port, testing=testing
         )
         self.bucketname = "{}_{}".format(
             self.client.client_name, self.client.client_hostname
@@ -57,7 +57,7 @@ class AFKWatcher:
         self.client.heartbeat(self.bucketname, e, pulsetime=pulsetime, queued=True)
 
     def run(self):
-        logger.info("aw-watcher-afk started")
+        logger.info("aw-watcher-input started")
 
         # Initialization
         sleep(1)
