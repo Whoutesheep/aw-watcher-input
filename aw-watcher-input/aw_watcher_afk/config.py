@@ -4,19 +4,19 @@ import sys
 from aw_core.config import load_config_toml
 
 default_config = """
-[aw-watcher-afk]
+[aw-watcher-input]
 timeout = 180
 poll_time = 5
 
-[aw-watcher-afk-testing]
+[aw-watcher-input-testing]
 timeout = 20
 poll_time = 1
 """.strip()
 
 
 def load_config(testing: bool):
-    section = "aw-watcher-afk" + ("-testing" if testing else "")
-    return load_config_toml("aw-watcher-afk", default_config)[section]
+    section = "aw-watcher-input" + ("-testing" if testing else "")
+    return load_config_toml("aw-watcher-input", default_config)[section]
 
 
 def parse_args():
