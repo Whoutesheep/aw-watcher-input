@@ -50,7 +50,7 @@ class INPUTWatcher:
             self.client.client_name, self.client.client_hostname
         )
 
-    def ping(self, afk: bool, timestamp: datetime, duration: float = 0):
+    def ping(self, afk: bool, timestamp: datetime, duration: float = 0): #modifier ping afin de pouvoir transmettre la postion + clic + scroll + touche 
         data = {"status": "afk" if afk else "not-afk"}
         e = Event(timestamp=timestamp, duration=duration, data=data)
         pulsetime = self.settings.timeout + self.settings.poll_time
@@ -77,7 +77,7 @@ class INPUTWatcher:
                     # TODO: This won't work with PyInstaller which starts a bootloader process which will become the parent.
                     #       There is a solution however.
                     #       See: https://github.com/ActivityWatch/aw-qt/issues/19#issuecomment-316741125
-                    logger.info("afkwatcher stopped because parent process died")
+                    logger.info("inputwatcher stopped because parent process died")
                     break
 
                 now = datetime.now(timezone.utc)
