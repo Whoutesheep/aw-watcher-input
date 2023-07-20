@@ -9,7 +9,7 @@ def main() -> None:
 
     # Set up logging
     setup_logging(
-        "aw-watcher-afk",
+        "aw-watcher-input",
         testing=args.testing,
         verbose=args.verbose,
         log_stderr=True,
