@@ -62,7 +62,7 @@ class INPUTWatcher:
         # Initialization
         sleep(1)
 
-        eventtype = "afkstatus"
+        eventtype = "inputstatus"
         self.client.create_bucket(self.bucketname, eventtype, queued=True)
 
         # Start afk checking loop
