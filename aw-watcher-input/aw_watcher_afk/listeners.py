@@ -11,6 +11,7 @@ import threading
 from abc import ABCMeta, abstractmethod
 from collections import defaultdict
 from typing import Dict, Any
+from datetime import datetime, timedelta, timezone
 
 logger = logging.getLogger(__name__)
 # logger.setLevel(logging.DEBUG)
@@ -71,7 +72,7 @@ class MouseListener(EventFactory):
     def _reset_data(self):
         self.event_data = defaultdict(int)
         self.event_data.update(
-            {"clicks": 0, "deltaX": 0, "deltaY": 0, "scrollX": 0, "scrollY": 0}
+            {"clicks": 0, "(X, Y)": [], "timestamp" : [], "scrollX": 0, "scrollY": 0}
         )
 
     def start(self):
@@ -85,12 +86,17 @@ class MouseListener(EventFactory):
     def on_move(self, x, y):
         newpos = (x, y)
         # self.logger.debug("Moved mouse to: {},{}".format(x, y))
+        
+        now = datetime.now(timezone.utc)
+        seconds_since_input = seconds_since_last_input()
+        last_input = now - timedelta(seconds=seconds_since_input)
+        
         if not self.pos:
             self.pos = newpos
 
         delta = tuple(self.pos[i] - newpos[i] for i in range(2))
-        self.event_data["deltaX"] += abs(delta[0])
-        self.event_data["deltaY"] += abs(delta[1])
+        self.event_data["(X, Y)"].append(newpos)
+        self.event_data["timestamp"].append(last_input)
 
         self.pos = newpos
         self.new_event.set()
