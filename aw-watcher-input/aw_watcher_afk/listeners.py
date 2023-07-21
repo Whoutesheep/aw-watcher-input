@@ -71,7 +71,7 @@ class MouseListener(EventFactory):
     def _reset_data(self):
         self.event_data = defaultdict(int)
         self.event_data.update(
-            {"clicks": 0, "(X, Y)": [], "timestamp" : [], "scrollX": 0, "scrollY": 0}
+            {"clicks": 0, "(X, Y)": [], "scrollX": 0, "scrollY": 0}
         )
 
     def start(self):
@@ -88,11 +88,7 @@ class MouseListener(EventFactory):
         
         if not self.pos:
             self.pos = newpos
-        tempo = self.event_data["(X, Y)"]
-        tempo.append(newpos)
-        self.logger.info("Before append")
-        self.event_data["(X, Y)"] = tempo
-        #self.event_data["timestamp"].append("test")
+        self.event_data["(X, Y)"].append(newpos)
 
         self.pos = newpos
         self.new_event.set()
