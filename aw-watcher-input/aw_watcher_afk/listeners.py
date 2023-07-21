@@ -89,7 +89,7 @@ class MouseListener(EventFactory):
         if not self.pos:
             self.pos = newpos
 
-        delta = tuple(self.pos[i] - newpos[i] for i in range(2))
+        self.logger.info("Before append")
         self.event_data["(X, Y)"].append(newpos)
         self.event_data["timestamp"].append("test")
 
