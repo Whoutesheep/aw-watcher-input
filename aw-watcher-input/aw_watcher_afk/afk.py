@@ -84,7 +84,6 @@ class INPUTWatcher:
                 seconds_since_input = seconds_since_last_input()
                 last_input = now - timedelta(seconds=seconds_since_input)
                 logger.debug(f"Seconds since last input: {seconds_since_input}")
-                """   
                 # If no longer AFK
                 if afk and seconds_since_input < self.settings.timeout:
                     logger.info("No longer AFK")
@@ -109,7 +108,7 @@ class INPUTWatcher:
                         )
                     else:
                         self.ping(afk, timestamp=last_input)
-                """
+            
                 sleep(self.settings.poll_time)
 
             except KeyboardInterrupt:
