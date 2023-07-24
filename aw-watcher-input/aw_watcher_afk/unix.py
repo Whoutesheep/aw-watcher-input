@@ -27,6 +27,8 @@ class LastInputUnix:
             # Get/clear events
             mouse_event = self.mouseListener.next_event()
             keyboard_event = self.keyboardListener.next_event()
+            self.logger.info(mouse_event)
+            self.logger.info(keyboard_event)
         return (now - self.last_activity).total_seconds()
 
 
