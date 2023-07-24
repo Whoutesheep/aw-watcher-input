@@ -82,7 +82,10 @@ class INPUTWatcher:
                     break
 
                 now = datetime.now(timezone.utc)
-                seconds_since_input, mouse_event, keyboard_event = seconds_since_last_input() # return data = [(now - self.last_activity).total_seconds(), mouse_event, keyboard_event]
+                data = seconds_since_last_input() # return data = [(now - self.last_activity).total_seconds(), mouse_event, keyboard_event]
+                seconds_since_input = data[0]
+                mouse_event = data[1]
+                keyboard_event = data[2] 
                 self.logger.info(seconds_since_input)
                 self.logger.info(mouse_event)
                 self.logger.info(keyboard_event)
