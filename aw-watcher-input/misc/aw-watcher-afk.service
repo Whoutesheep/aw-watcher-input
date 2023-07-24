@@ -1,5 +1,5 @@
 [Unit]
-Description=AFK watcher for ActivityWatch
+Description=INPUT watcher for ActivityWatch
 Documentation=
 After=aw-server.service
 
