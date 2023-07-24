@@ -21,15 +21,17 @@ class LastInputUnix:
         # TODO: This has a delay of however often it is called.
         #       Could be solved by creating a custom listener.
         now = datetime.now()
+        data = []
         if self.mouseListener.has_new_event() or self.keyboardListener.has_new_event():
             self.logger.debug("New event")
             self.last_activity = now
             # Get/clear events
             mouse_event = self.mouseListener.next_event()
             keyboard_event = self.keyboardListener.next_event()
-            self.logger.info(mouse_event)
-            self.logger.info(keyboard_event)
-        return (now - self.last_activity).total_seconds()
+            #self.logger.info(mouse_event)
+            #self.logger.info(keyboard_event)
+            data = [(now - self.last_activity).total_seconds(), mouse_event, keyboard_event]
+        return data
 
 
 _last_input_unix = None
