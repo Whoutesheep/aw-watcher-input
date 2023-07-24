@@ -50,8 +50,10 @@ class INPUTWatcher:
             self.client.client_name, self.client.client_hostname
         )
 
-    def ping(self, afk: bool, timestamp: datetime, duration: float = 0): #modifier ping afin de pouvoir transmettre la postion + clic + scroll + touche 
-        data = {"status": "afk" if afk else "not-afk"}
+    def ping(self, mouse: bool, keyboard: bool, timestamp: datetime, duration: float = 0):
+        data = {"data_mouse": "Mouse active" if mouse else "Mouse not active",
+        "data_keyboard": "Keyboard active" if keyboard else "Keyboard not active"
+        }
         e = Event(timestamp=timestamp, duration=duration, data=data)
         pulsetime = self.settings.timeout + self.settings.poll_time
         self.client.heartbeat(self.bucketname, e, pulsetime=pulsetime, queued=True)
@@ -70,7 +72,9 @@ class INPUTWatcher:
             self.heartbeat_loop()
 
     def heartbeat_loop(self):
-        afk = False
+    """
+    Sending data to the serveur, if no new entry, no ping would be sent. 
+    """
         while True:
             try:
                 if system in ["Darwin", "Linux"] and os.getppid() == 1:
@@ -84,22 +88,12 @@ class INPUTWatcher:
                 seconds_since_input = seconds_since_last_input()
                 last_input = now - timedelta(seconds=seconds_since_input)
                 logger.debug(f"Seconds since last input: {seconds_since_input}")
-                # If no longer AFK
                 if afk and seconds_since_input < self.settings.timeout:
                     logger.info("No longer AFK")
                     self.ping(afk, timestamp=last_input)
                     afk = False
                     # ping with timestamp+1ms with the next event (to ensure the latest event gets retrieved by get_event)
                     self.ping(afk, timestamp=last_input + td1ms)
-                # If becomes AFK
-                elif not afk and seconds_since_input >= self.settings.timeout:
-                    logger.info("Became AFK")
-                    self.ping(afk, timestamp=last_input)
-                    afk = True
-                    # ping with timestamp+1ms with the next event (to ensure the latest event gets retrieved by get_event)
-                    self.ping(
-                        afk, timestamp=last_input + td1ms, duration=seconds_since_input
-                    )
                 # Send a heartbeat if no state change was made
                 else:
                     if afk:
