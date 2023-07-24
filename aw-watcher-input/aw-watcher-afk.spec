@@ -3,7 +3,7 @@
 block_cipher = None
 
 
-a = Analysis(['aw_watcher_afk/__main__.py'],
+a = Analysis(['aw_watcher_input/__main__.py'],
              pathex=[],
              binaries=None,
              datas=None,
@@ -40,7 +40,7 @@ pyz = PYZ(a.pure, a.zipped_data,
 exe = EXE(pyz,
           a.scripts,
           exclude_binaries=True,
-          name='aw-watcher-afk',
+          name='aw-watcher-input',
           debug=False,
           strip=False,
           upx=True,
@@ -51,4 +51,4 @@ coll = COLLECT(exe,
                a.datas,
                strip=False,
                upx=True,
-               name='aw-watcher-afk')
+               name='aw-watcher-input')
