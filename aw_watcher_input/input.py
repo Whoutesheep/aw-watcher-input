@@ -72,9 +72,6 @@ class INPUTWatcher:
             self.heartbeat_loop()
 
     def heartbeat_loop(self):
-    """
-    Sending data to the serveur, if no new entry, no ping would be sent. 
-    """
         while True:
             try:
                 if system in ["Darwin", "Linux"] and os.getppid() == 1:
