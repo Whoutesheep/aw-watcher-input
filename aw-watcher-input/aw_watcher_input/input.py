@@ -88,23 +88,7 @@ class INPUTWatcher:
                 seconds_since_input = seconds_since_last_input()
                 last_input = now - timedelta(seconds=seconds_since_input)
                 logger.debug(f"Seconds since last input: {seconds_since_input}")
-                if afk and seconds_since_input < self.settings.timeout:
-                    logger.info("No longer AFK")
-                    self.ping(afk, timestamp=last_input)
-                    afk = False
-                    # ping with timestamp+1ms with the next event (to ensure the latest event gets retrieved by get_event)
-                    self.ping(afk, timestamp=last_input + td1ms)
-                # Send a heartbeat if no state change was made
-                else:
-                    if afk:
-                        self.ping(
-                            afk, timestamp=last_input, duration=seconds_since_input
-                        )
-                    else:
-                        self.ping(afk, timestamp=last_input)
-            
-                sleep(self.settings.poll_time)
-
+                
             except KeyboardInterrupt:
                 logger.info("aw-watcher-input stopped by keyboard interrupt")
                 break
