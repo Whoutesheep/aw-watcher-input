@@ -29,7 +29,7 @@ class EventFactory(metaclass=ABCMeta):
         """Returns an event and prepares the internal state so that it can start to build a new event"""
         self.new_event.clear()
         data = self.event_data
-        self.logger.debug(f"Event: {data}")
+        self.logger.info(f"Event: {data}")
         self._reset_data()
         return data
 
