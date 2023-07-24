@@ -83,9 +83,8 @@ class INPUTWatcher:
 
                 now = datetime.now(timezone.utc)
                 data = seconds_since_last_input() # return data = [(now - self.last_activity).total_seconds(), mouse_event, keyboard_event]
-                self.logger.info(data)
-                last_input = now - timedelta(seconds=seconds_since_input)
-                logger.debug(f"Seconds since last input: {seconds_since_input}")
+                # last_input = now - timedelta(seconds=seconds_since_input)
+                # logger.debug(f"Seconds since last input: {seconds_since_input}")
                 
             except KeyboardInterrupt:
                 logger.info("aw-watcher-input stopped by keyboard interrupt")
