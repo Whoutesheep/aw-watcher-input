@@ -88,7 +88,9 @@ class INPUTWatcher:
                     mouse_event = data_event[1]
                     keyboard_event = data_event[2]
                     logger.info("Mouse event : " + str(mouse_event))
-                    logger.info("Keyboard event : " + str(keyboard_event)) 
+                    logger.info("Keyboard event : " + str(keyboard_event))
+                    
+                sleep(self.settings.poll_time)
                 
             except KeyboardInterrupt:
                 logger.info("aw-watcher-input stopped by keyboard interrupt")
