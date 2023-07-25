@@ -70,6 +70,7 @@ class INPUTWatcher:
             self.heartbeat_loop()
 
     def heartbeat_loop(self):
+        data_event = []
         while True:
             try:
                 if system in ["Darwin", "Linux"] and os.getppid() == 1:
@@ -78,7 +79,7 @@ class INPUTWatcher:
                     #       See: https://github.com/ActivityWatch/aw-qt/issues/19#issuecomment-316741125
                     logger.info("inputwatcher stopped because parent process died")
                     break
-                while data_event != [] :
+                while data_event == [] :
                     now = datetime.now(timezone.utc)
                     data_event = seconds_since_last_input() # return data = [(now - self.last_activity).total_seconds(), mouse_event, keyboard_event]
                 last_input = now - timedelta(seconds=data_event[0])
@@ -86,8 +87,8 @@ class INPUTWatcher:
                 keyboard_event = data_event[2]
                 logger.info("Mouse event : " + str(mouse_event))
                 logger.info("Keyboard event : " + str(keyboard_event))
-                self.ping(self, mouse_event, keyboard_evbent, timestamp=last_input) #ping(self, mouse_event, keyboard_event, timestamp: datetime, duration: float = 0):
-                self.ping(self, mouse_event, keyboard_evbent, timestamp=last_input + td1ms)
+                self.ping(self, mouse_event, keyboard_event, timestamp=last_input) #ping(self, mouse_event, keyboard_event, timestamp: datetime, duration: float = 0):
+                self.ping(self, mouse_event, keyboard_event, timestamp=last_input + td1ms)
                 data_event = seconds_since_last_input()
                 sleep(self.settings.poll_time)
                 
