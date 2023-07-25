@@ -17,7 +17,7 @@ class LastInputUnix:
 
         self.last_activity = datetime.now()
 
-    def seconds_since_last_input(self) -> float:
+    def seconds_since_last_input(self) -> dict:
         # TODO: This has a delay of however often it is called.
         #       Could be solved by creating a custom listener.
         now = datetime.now()
