@@ -50,10 +50,8 @@ class INPUTWatcher:
             self.client.client_name, self.client.client_hostname
         )
 
-    def ping(self, mouse: bool, keyboard: bool, timestamp: datetime, duration: float = 0):
-        data = {"data_mouse": "Mouse active" if mouse else "Mouse not active",
-        "data_keyboard": "Keyboard active" if keyboard else "Keyboard not active"
-        }
+    def ping(self, mouse_activity, keyboard_activity, timestamp: datetime, duration: float = 0):
+        data = {mouse_activity, keyboard_activity}
         e = Event(timestamp=timestamp, duration=duration, data=data)
         pulsetime = self.settings.timeout + self.settings.poll_time
         self.client.heartbeat(self.bucketname, e, pulsetime=pulsetime, queued=True)
@@ -72,6 +70,8 @@ class INPUTWatcher:
             self.heartbeat_loop()
 
     def heartbeat_loop(self):
+        mouse = False
+        keyboard = False
         while True:
             try:
                 if system in ["Darwin", "Linux"] and os.getppid() == 1:
@@ -83,9 +83,12 @@ class INPUTWatcher:
 
                 now = datetime.now(timezone.utc)
                 data_event = seconds_since_last_input() # return data = [(now - self.last_activity).total_seconds(), mouse_event, keyboard_event]
-                logger.info(data)
-                # last_input = now - timedelta(seconds=seconds_since_input)
-                # logger.debug(f"Seconds since last input: {seconds_since_input}")
+                last_input = now - timedelta(seconds=data_event[0])
+                mouse_event = data_event[1]
+                keyboard_event = data_event[2]
+                if data_event != [] :
+                    logger.info("Mouse event : " + mouse_event)
+                    logger.info("Keyboard event : " + keyboard_event)
                 
             except KeyboardInterrupt:
                 logger.info("aw-watcher-input stopped by keyboard interrupt")
