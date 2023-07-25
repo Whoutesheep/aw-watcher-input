@@ -88,16 +88,17 @@ class MouseListener(EventFactory):
         
         if not self.pos:
             self.pos = newpos
-        self.event_data["(X, Y)"].append(newpos)
-
+        self.event_data["mouse_pos"].append(newpos)
         self.pos = newpos
         self.new_event.set()
 
     def on_click(self, x, y, button, down):
         # self.logger.debug(f"Click: {button} at {(x, y)}")
         # Only count presses, not releases
+        click_pos = (x, y)
         if down:
             self.event_data["clicks"] += 1
+            self.event_data["click_pos"].append(click_pos)
             self.new_event.set()
 
     def on_scroll(self, x, y, scrollx, scrolly):
