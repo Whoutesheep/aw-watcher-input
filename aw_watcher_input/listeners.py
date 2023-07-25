@@ -71,7 +71,7 @@ class MouseListener(EventFactory):
     def _reset_data(self):
         self.event_data = defaultdict(int)
         self.event_data.update(
-            {"clicks": 0, "(X, Y)": [], "scrollX": 0, "scrollY": 0}
+            {"clicks": 0, "click-pos" : [], "mouse_pos": [], "scrollX": 0, "scrollY": 0}
         )
 
     def start(self):
