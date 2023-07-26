@@ -51,7 +51,7 @@ class INPUTWatcher:
         )
 
     def ping(self, mouse_event, keyboard_event, timestamp: datetime, duration: float = 0):
-        data = {mouse_event, keyboard_event}
+        data = {"Mouse event" : mouse_event,"Keyboard event" : keyboard_event}
         e = Event(timestamp=timestamp, duration=duration, data=data)
         pulsetime = self.settings.timeout + self.settings.poll_time
         self.client.heartbeat(self.bucketname, e, pulsetime=pulsetime, queued=True)
@@ -87,8 +87,8 @@ class INPUTWatcher:
                 keyboard_event = data_event[2]
                 logger.info("Mouse event : " + str(mouse_event))
                 logger.info("Keyboard event : " + str(keyboard_event))
-                self.ping(self, mouse_event, keyboard_event, timestamp=last_input) #ping(self, mouse_event, keyboard_event, timestamp: datetime, duration: float = 0):
-                self.ping(self, mouse_event, keyboard_event, timestamp=last_input + td1ms)
+                self.ping(mouse_event, keyboard_event, timestamp=last_input) #ping(self, mouse_event, keyboard_event, timestamp: datetime, duration: float = 0):
+                self.ping(mouse_event, keyboard_event, timestamp=last_input + td1ms)
                 data_event = seconds_since_last_input()
                 sleep(self.settings.poll_time)
                 
