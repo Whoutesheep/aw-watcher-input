@@ -47,7 +47,7 @@ class INPUTWatcher:
             "aw-watcher-input", host=args.host, port=args.port, testing=testing
         )
         self.bucketname = "{}_{}_{]".format(
-            self.client.client_name, self.client.client_hostname, os.getlogin()
+            self.client.client_name, self.client.client_hostname, self.client_login
         )
 
     def ping(self, mouse_event, keyboard_event, timestamp: datetime, duration: float = 0):
