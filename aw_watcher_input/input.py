@@ -46,8 +46,8 @@ class INPUTWatcher:
         self.client = ActivityWatchClient(
             "aw-watcher-input", host=args.host, port=args.port, testing=testing
         )
-        self.bucketname = "{}_{}".format(
-            self.client.client_name, self.client.client_hostname
+        self.bucketname = "{}_{}_{]".format(
+            self.client.client_name, self.client.client_hostname, os.getlogin()
         )
 
     def ping(self, mouse_event, keyboard_event, timestamp: datetime, duration: float = 0):
@@ -80,15 +80,14 @@ class INPUTWatcher:
                     logger.info("inputwatcher stopped because parent process died")
                     break
                 while data_event == [] :
-                    now = datetime.now(timezone.utc)
                     data_event = seconds_since_last_input() # return data = [(now - self.last_activity).total_seconds(), mouse_event, keyboard_event]
+                now = datetime.now(timezone.utc)
                 last_input = now - timedelta(seconds=data_event[0])
                 mouse_event = data_event[1]
                 keyboard_event = data_event[2]
                 logger.info("Mouse event : " + str(mouse_event))
                 logger.info("Keyboard event : " + str(keyboard_event))
-                self.ping(mouse_event, keyboard_event, timestamp=last_input) #ping(self, mouse_event, keyboard_event, timestamp: datetime, duration: float = 0):
-                self.ping(mouse_event, keyboard_event, timestamp=last_input + td1ms)
+                self.ping(mouse_event, keyboard_event, timestamp=now) #ping(self, mouse_event, keyboard_event, timestamp: datetime, duration: float = 0):
                 data_event = seconds_since_last_input()
                 sleep(self.settings.poll_time)
                 
