@@ -54,7 +54,7 @@ class INPUTWatcher:
         data = {"Mouse event" : mouse_event,"Keyboard event" : keyboard_event}
         e = Event(timestamp=timestamp, duration=duration, data=data)
         pulsetime = self.settings.timeout + self.settings.poll_time
-        self.client.heartbeat(self.bucketname, e, pulsetime=pulsetime, queued=True)
+        self.client.insert_event(self.bucketname, e)    #self.client.heartbeat(self.bucketname, e, pulsetime=pulsetime, queued=True)
 
     def run(self):
         logger.info("aw-watcher-input started")
