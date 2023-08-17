@@ -46,7 +46,7 @@ class INPUTWatcher:
         self.client = ActivityWatchClient(
             "aw-watcher-input", host=args.host, port=args.port, testing=testing
         )
-        self.bucketname = "{}_{}_{]".format(
+        self.bucketname = "{}_{}_{}".format(
             self.client.client_name, self.client.client_hostname, self.client_login
         )
 
