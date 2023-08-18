@@ -50,8 +50,8 @@ class INPUTWatcher:
             self.client.client_name, self.client.client_hostname, self.client.client_login
         )
 
-    def ping(self, mouse_event, keyboard_event, timestamp: datetime, duration: float = 0):
-        data = {"Mouse event" : mouse_event,"Keyboard event" : keyboard_event}
+    def ping(self, activity, mouse_event, keyboard_event, timestamp: datetime, duration: float = 0):
+        data = {"status" : activity, "Mouse event" : mouse_event,"Keyboard event" : keyboard_event}
         e = Event(timestamp=timestamp, duration=duration, data=data)
         pulsetime = self.settings.timeout + self.settings.poll_time
         self.client.insert_event(self.bucketname, e)    #self.client.heartbeat(self.bucketname, e, pulsetime=pulsetime, queued=True)
@@ -79,15 +79,15 @@ class INPUTWatcher:
                     #       See: https://github.com/ActivityWatch/aw-qt/issues/19#issuecomment-316741125
                     logger.info("inputwatcher stopped because parent process died")
                     break
-                while data_event == [] :
-                    data_event = seconds_since_last_input() # return data = [(now - self.last_activity).total_seconds(), mouse_event, keyboard_event]
+                
+                data_event = recover_data() # return data = [(now - self.last_activity).total_seconds(), mouse_event, keyboard_event]
                 now = datetime.now(timezone.utc)
                 last_input = now - timedelta(seconds=data_event[0])
                 mouse_event = data_event[1]
                 keyboard_event = data_event[2]
                 logger.info("Mouse event : " + str(mouse_event))
                 logger.info("Keyboard event : " + str(keyboard_event))
-                self.ping(mouse_event, keyboard_event, timestamp=now) #ping(self, mouse_event, keyboard_event, timestamp: datetime, duration: float = 0):
+                self.ping(activity, mouse_event, keyboard_event, timestamp=now) #ping(self, mouse_event, keyboard_event, timestamp: datetime, duration: float = 0):
                 data_event = seconds_since_last_input()
                 sleep(self.settings.poll_time)
                 
