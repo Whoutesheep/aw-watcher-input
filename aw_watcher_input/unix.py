@@ -17,7 +17,7 @@ class LastInputUnix:
 
         self.last_activity = datetime.now()
 
-    def seconds_since_last_input(self) -> dict:
+    def data_recover(self) -> dict:
         # TODO: This has a delay of however often it is called.
         #       Could be solved by creating a custom listener.
         now = datetime.now()
@@ -37,13 +37,13 @@ class LastInputUnix:
 _last_input_unix = None
 
 
-def seconds_since_last_input():
+def data_recover():
     global _last_input_unix
 
     if _last_input_unix is None:
         _last_input_unix = LastInputUnix()
 
-    return _last_input_unix.seconds_since_last_input()
+    return _last_input_unix.data_recover()
 
 
 if __name__ == "__main__":
@@ -51,4 +51,4 @@ if __name__ == "__main__":
 
     while True:
         sleep(1)
-        print(seconds_since_last_input())
+        print(data_recover())
