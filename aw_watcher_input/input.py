@@ -17,7 +17,7 @@ if system == "Windows":
 elif system == "Darwin":
     from .macos import seconds_since_last_input
 elif system == "Linux":
-    from .unix import seconds_since_last_input
+    from .unix import data_recover
 else:
     raise Exception(f"Unsupported platform: {system}")
 
@@ -80,7 +80,7 @@ class INPUTWatcher:
                     logger.info("inputwatcher stopped because parent process died")
                     break
                 
-                data_event = recover_data() # return data = [(now - self.last_activity).total_seconds(), mouse_event, keyboard_event]
+                data_event = data_recover() # return data = [(now - self.last_activity).total_seconds(), mouse_event, keyboard_event]
                 now = datetime.now(timezone.utc)
                 last_input = now - timedelta(seconds=data_event[0])
                 mouse_event = data_event[1]
@@ -88,7 +88,6 @@ class INPUTWatcher:
                 logger.info("Mouse event : " + str(mouse_event))
                 logger.info("Keyboard event : " + str(keyboard_event))
                 self.ping(activity, mouse_event, keyboard_event, timestamp=now) #ping(self, mouse_event, keyboard_event, timestamp: datetime, duration: float = 0):
-                data_event = seconds_since_last_input()
                 sleep(self.settings.poll_time)
                 
             except KeyboardInterrupt:
