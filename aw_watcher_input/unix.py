@@ -30,6 +30,8 @@ class LastInputUnix:
             keyboard_event = self.keyboardListener.next_event()
             #self.logger.info(mouse_event)
             #self.logger.info(keyboard_event)
+            self.logger.info(now)
+            self.logger.info(self.last_activity)
             data = [(now - self.last_activity).total_seconds(), mouse_event, keyboard_event]
         return data
 
